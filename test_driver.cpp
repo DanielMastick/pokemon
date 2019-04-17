@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
     // test a couple matchups
     cout << "fire vs. water: " << types.typeMatchup("Fire", "Fire", "Water") << endl;
     cout << "normal fire vs. water: " << types.typeMatchup("Fire", "Normal", "Water") << endl;
-    cout << "normal fire vs ghost: " << types.typeMatchup("Normal", "Fire", "Ghost") << endl;  
+    cout << "normal vs ghost: " << types.typeMatchup("Normal", "Normal", "Ghost") << endl;  
 
     int finish = 0;
     while (finish == 0)
