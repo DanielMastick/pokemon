@@ -1,0 +1,72 @@
+﻿Name,Type,Cat,Power,Acc.,PP
+Absorb,Grass,sp,20,100,25
+Acid,Poison,sp,40,100,30
+Aurora Beam,Ice,sp,65,100,20
+Barrage,Normal,ph,15,85,20
+Bind,Normal,ph,15,85,20
+Bite,Dark,ph,60,100,25
+Blizzard,Ice,sp,110,70,5
+Body Slam,Normal,ph,85,100,15
+Bone Club,Ground,ph,65,85,20
+Bonemerang,Ground,ph,50,90,10
+Bubble,Water,sp,40,100,30
+Bubble Beam,Water,sp,65,100,20
+Clamp,Water,ph,35,85,10
+Comet Punch,Normal,ph,18,85,15
+Confusion,Psychic,sp,50,100,25
+Constrict,Normal,ph,10,100,35
+Crabhammer,Water,ph,100,90,10
+Cut,Normal,ph,50,95,30
+Dig,Ground,ph,80,100,10
+Dizzy Punch,Normal,ph,70,100,10
+Double Kick,Fighting,ph,30,100,30
+Double Slap,Normal,ph,15,85,10
+Double-Edge,Normal,ph,120,100,15
+Dream Eater,Psychic,sp,100,100,15
+Drill Peck,Flying,ph,80,100,20
+Earthquake,Ground,ph,100,100,10
+Egg Bomb,Normal,ph,100,75,10
+Ember,Fire,sp,40,100,25
+Explosion,Normal,ph,250,100,5
+Fire Blast,Fire,sp,110,85,5
+Fire Punch,Fire,ph,75,100,15
+Fire Spin,Fire,sp,35,85,15
+Flamethrower,Fire,sp,90,100,15
+Fly,Flying,ph,90,95,15
+Fury Attack,Normal,ph,15,85,20
+Fury Swipes,Normal,ph,18,80,15
+Gust,Flying,sp,40,100,35
+Headbutt,Normal,ph,70,100,15
+High Jump Kick,Fighting,ph,130,90,10
+Horn Attack,Normal,ph,65,100,25
+Ice Beam,Ice,sp,90,100,10
+Ice Punch,Ice,ph,75,100,15
+Jump Kick,Fighting,ph,100,95,10
+Leech Life,Bug,ph,80,100,10
+Lick,Ghost,ph,30,100,30
+Mega Drain,Grass,sp,40,100,15
+Mega Kick,Normal,ph,120,75,5
+Mega Punch,Normal,ph,80,85,20
+Pay Day,Normal,ph,40,100,20
+Peck,Flying,ph,35,100,35
+Petal Dance,Grass,sp,120,100,10
+Pin Missile,Bug,ph,25,95,20
+Poison Sting,Poison,ph,15,100,35
+Pound,Normal,ph,40,100,35
+Psybeam,Psychic,sp,65,100,20
+Psychic,Psychic,sp,90,100,10
+Quick Attack,Normal,ph,40,100,30
+Rage,Normal,ph,20,100,20
+Razor Leaf,Grass,ph,55,95,25
+Razor Wind,Normal,sp,80,100,10
+Rock Slide,Rock,ph,75,90,10
+Rock Throw,Rock,ph,50,90,15
+Rolling Kick,Fighting,ph,60,85,15
+Scratch,Normal,ph,40,100,35
+Self-Destruct,Normal,ph,200,100,5
+Skull Bash,Normal,ph,130,100,10
+Sky Attack,Flying,ph,140,90,5
+Slam,Normal,ph,80,75,20
+Slash,Normal,ph,70,100,20
+Sludge,Poison,sp,65,100,20
+Smog,Poison,sp,30,70,20
