@@ -278,8 +278,8 @@ void printMoveList(moveTable mt){
 
 int typeIndex(string name){
   int index = 0;
-  string types[19] = {"Fail","Normal","Fighting","Flying","Poison","Ground","Rock","Bug","Ghost","Steel","Fire","Water","Grass","Electric","Psychic","Ice","Dragon","Dark","Fairy"};
-  for (int i = 0; i < 19; i++) {
+  string types[18] = {"Normal","Fighting","Flying","Poison","Ground","Rock","Bug","Ghost","Steel","Fire","Water","Grass","Electric","Psychic","Ice","Dragon","Dark","Fairy"};
+  for (int i = 0; i < 18; i++) {
     if (name == types[i]) {
       return i;
     }
@@ -287,34 +287,44 @@ int typeIndex(string name){
   return -1;
 }
 
-float* loadTypeMatchup(string typeAtt, string typeDef){
-  float* typeChart;
-  int count = 1;
+float* loadTypeMatchup(){
+  float* typeChart = new float[324];
+  int count = 0;
 
-  string num;
+  string line;
   ifstream myfile("type_matchup.csv");
 
   if(myfile.is_open()){
-    while (getline(myfile,num)) {
+    while (getline(myfile,line)) {
       stringstream ss;
-      ss<<num;
+      ss<<line;
       string val;
       //go through comma seperated file
-      getline(ss,val,',');
-      *(typeChart + count) = stof(val);
-      count++;
-      ss.clear();
+      while (getline(ss,val,',')) {
+        typeChart[count] = stof(val);
+        // count+=sizeof(float);
+        count++;
+        ss.clear();
+      }
     }
     myfile.close();
+  }
+  for (size_t i = 0; i < 18; i++) {
+    cout << typeChart[i] << " ";
   }
   return typeChart;
 }
 
-float* typeMatchup(float* typeChart, string typeAtt, string typeDef){
+float typeMatchup(float* typeChart, string typeAttMon, string typeAtt, string typeDef){
   int typeAttInd = typeIndex(typeAtt);
   int typeDefInd = typeIndex(typeDef);
-  cout << typeAttInd << " " << typeDefInd << endl;
-
+  cout << typeAtt <<": "<< typeAttInd << " " << typeDef <<": "<< typeDefInd << endl;
+  cout << "returning ind: " <<(18*typeAttInd)+typeDefInd << endl;
+  float stab = 1;
+  if (typeAttMon == typeAtt) {
+    stab = 1.5;
+  }
+  return stab*typeChart[(18*typeAttInd)+typeDefInd];
 }
 
 team* makeTeam(Pokemon* root, int teamSize){
@@ -376,6 +386,19 @@ int main(int argc, char const *argv[]){
   cout << "loading pokemon" << endl;
   root = loadPokemonFile(root,mt,"pokemon_data.csv");
   cout << "finished loading pokemon"  << "\n"<< endl;
+
+  cout << "loading types" << endl;
+  float* typeChart = loadTypeMatchup();
+  cout << "finished loading types"  << "\n"<< endl;
+  // for (int i = 0; i < 10; i++) {
+  //   cout << typeChart[i] << endl;
+  // }
+  // cout << endl;
+  //
+  float check = typeMatchup(typeChart,"Fighting","Fighting", "Normal");
+  cout << "result: " << check << endl;
+  check = typeMatchup(typeChart,"Flying","Fighting", "Normal");
+  cout << "result: " << check << endl;
 
 
   int finish = 0;
