@@ -1,0 +1,40 @@
+player 1s turn
+check both players health
+	call to switch pokemon/end game
+player 1 select move
+	check physical vs special
+	check damage multiplier
+	damage = (spc+moveDamage)*multiplier or (att+moveDamage)*multiplier
+	hp = hp+ (damage -def)<0
+	
+
+checkStatus()
+	check current Pokemons health > 0
+	check for any valid Pokemon
+	allow for switching Pokemon
+	print list of current valid Pokemon
+	end game by declaring winner
+
+calculateDamage(attacking mon, defending mon, move name)
+	check moves parameters
+		special vs physical
+		pp > 0
+			decrease pp or exit and ask for new move
+		power
+		accuracy
+		type
+	calculate damage multiplier
+		typeMatchup()
+	attack = (spc+moveDamage)*multiplier
+	accuracyCheck(acc)
+	if accuracy check passes
+		opponent hp = hp+ (damage -def)<0
+			check damage-def < 0 so no health is added
+
+Player 2s turn
+	checkStatus()
+	"select move"
+	[input]
+	calculateDamage()
+		
+
