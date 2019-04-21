@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "MoveTable.hpp"
+#include "MoveList.hpp"
 #include "Team.hpp"
 #include "Pokedex.hpp"
 #include "TypeGraph.hpp"
@@ -33,13 +33,12 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
-    // Initialize new movetable with given size
-    int numMoves = 25;
-    MoveTable mt(numMoves);
+    // Initialize new movelist with given size
+    MoveList ml;
 
     // Load moves into moveTable
     cout << "loading moves" << endl;
-    mt.loadMoveFile("pokemon_moves_attack_only.csv");
+    ml.loadMoveFile("pokemon_moves_attack_only.csv");
     cout << "finished loading moves"
          << "\n"
          << endl;
@@ -47,7 +46,7 @@ int main(int argc, char const *argv[])
     // Instantiate pokedex binary tree
     Pokedex dex;
     cout << "loading pokemon" << endl;
-    dex.loadPokemonFile(&mt, "pokemon_data.csv");
+    dex.loadPokemonFile(&ml, "pokemon_data.csv");
     cout << "finished loading pokemon"
          << "\n"
          << endl;
@@ -100,7 +99,7 @@ int main(int argc, char const *argv[])
             cout << "Speicial?" << endl;
             getline(cin, spc);
 
-            dex.addMon(dexNum, name, type, stoi(hp), stoi(atk), stoi(def), stoi(spd), stoi(spc), &mt, move1, move2, move3, move4);
+            dex.addMon(dexNum, name, type, stoi(hp), stoi(atk), stoi(def), stoi(spd), stoi(spc), &ml, move1, move2, move3, move4);
             cout << "Nice Pokemon! It has been added to the Pokedex (Binary Tree)." << endl;
             break;
         }
@@ -113,7 +112,7 @@ int main(int argc, char const *argv[])
         case 3:
         {   // Print all loaded moves
             cout << "Printing moves list" << endl;
-            mt.printMoveList();
+            ml.printMoveList();
             break;
         }
         case 4:

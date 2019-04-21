@@ -1,7 +1,7 @@
 #ifndef POKEDEX_HPP
 #define POKEDEX_HPP
 
-#include "MoveTable.hpp"
+#include "MoveList.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -34,10 +34,10 @@ class Pokedex
     public:
         Pokedex();
         ~Pokedex();
-        void loadPokemonFile(MoveTable *mt, string filename);
+        void loadPokemonFile(MoveList *mt, string filename);
         void printPokemonList();
         Pokemon* getRoot();
-        void addMon(int dexNum, string name, string type, int hp, int atk, int def, int spd, int spc, MoveTable *mt, Move move1, Move move2, Move move3, Move move4);
+        void addMon(int dexNum, string name, string type, int hp, int atk, int def, int spd, int spc, MoveList *mt, Move move1, Move move2, Move move3, Move move4);
 
     private:
         void printPokemonListHelper(Pokemon* root);

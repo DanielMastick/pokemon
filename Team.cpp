@@ -1,5 +1,5 @@
 #include "Team.hpp"
-#include "MoveTable.hpp"
+#include "MoveList.hpp"
 #include <iostream>
 
 using namespace std;

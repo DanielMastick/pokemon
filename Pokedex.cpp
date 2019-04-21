@@ -1,5 +1,5 @@
 #include "Pokedex.hpp"
-#include "MoveTable.hpp"
+#include "MoveList.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -18,7 +18,7 @@ Pokedex::~Pokedex()
 
 }
 
-void Pokedex::addMon(int dexNum, string name, string type, int hp, int atk, int def, int spd, int spc, MoveTable *mt, Move move1, Move move2, Move move3, Move move4)
+void Pokedex::addMon(int dexNum, string name, string type, int hp, int atk, int def, int spd, int spc, MoveList *mt, Move move1, Move move2, Move move3, Move move4)
 {// Add pokemon to the pokedex tree
     Pokemon *node = new Pokemon;
     node->dexNum = dexNum;
@@ -77,7 +77,7 @@ void Pokedex::addMon(int dexNum, string name, string type, int hp, int atk, int 
     }
 }
 
-void Pokedex::loadPokemonFile(MoveTable *mt, string filename)
+void Pokedex::loadPokemonFile(MoveList *mt, string filename)
 {// Load file into pokedex tree
     string line;
     ifstream myfile(filename);

@@ -2,7 +2,7 @@
 #define TEAM_HPP
 
 #include <iostream>
-#include "MoveTable.hpp"
+#include "MoveList.hpp"
 #include "Pokedex.hpp"
 
 using namespace std;
