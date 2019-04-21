@@ -126,3 +126,33 @@ void Team::printTeam()
     }
     cout << endl;
 }
+
+bool Team::checkStatus()
+{// Check if current or all Pokemon in team are not fainted, return 1 if all is good
+	if (head->mon.hp > 0) {
+		cout << "Pokemon " << head->mon.name << " has " << head->mon.hp  << " hit points remaining."<< endl;
+		return 1;
+	}
+	else if (head->mon.hp <= 0) {
+		cout << head->mon.name << " fainted!" << endl;
+		teamMember *traverseParent = head;
+		teamMember *traverse = head;
+		while (traverse->next != nullptr) {
+			if (traverse->next->mon.hp > 0) {//swap with head
+				traverse = traverse->next;
+				traverseParent->next = traverse->next;
+				teamMember *temp = traverse;
+				temp->next = head;
+				head = temp;
+				cout << "Sending out " << head->mon.name << endl;
+				return 1;
+			}
+			else {
+				traverseParent = traverseParent->next;
+				traverse = traverse->next;
+			}
+		}
+		return 0;
+	}
+
+}

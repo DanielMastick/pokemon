@@ -21,6 +21,8 @@ class Team{
         Pokemon* getMon(Pokemon* root, string name);
         void makeTeam(int teamSize, Pokemon* root);
         void printTeam();
+		bool checkStatus();
+
     private:
 
         teamMember* head;

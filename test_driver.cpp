@@ -23,6 +23,29 @@ void menu()
 void battle(Team *p1, Team *p2)
 {
     cout << "lets battle my dudes" << endl;
+	bool end = 1;
+
+	while (end == 1) {
+		end = p1->checkStatus();
+		if (end == 0) {
+			cout << "All Pokemon on team 1 have fainted" << endl;
+			cout << "Player 2 Wins!" << endl;
+		}
+
+		//select move
+		//calculate damage
+
+		end = p2->checkStatus();
+		if (end == 0) {
+			cout << "All Pokemon on team 2 have fainted" << endl;
+			cout << "Player 1 Wins!" << endl;
+		}
+
+		//select move
+		//calcualte damage
+
+	}
+
 }
 
 int main(int argc, char const *argv[])
