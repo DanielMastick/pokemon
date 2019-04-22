@@ -1,5 +1,6 @@
 #include "Team.hpp"
 #include "MoveList.hpp"
+#include "TypeGraph.hpp"
 #include <iostream>
 
 using namespace std;
@@ -36,9 +37,7 @@ teamMember* Team::addMember(string name, Pokemon* pokeListRoot)
     teamMember* tmp = head;
 
     // Search for the pokemon with name
-    cout << "Fetching " << name << endl;
     Pokemon *tempMon = getMon(pokeListRoot, name);
-    cout << name << " is stored in " << tempMon << endl;
 
     if (tempMon != nullptr)
     {
@@ -120,8 +119,11 @@ void Team::printTeam()
     teamMember *traverse = head;
     while (traverse != nullptr)
     {
-        cout << traverse->mon.name << "--" << traverse->mon.m1.name << "--";
+        //cout << traverse << endl;
+        cout << traverse->mon.name << " [hp:" << traverse->mon.hp << "]   " << traverse->mon.m1.name << "--";
         cout << traverse->mon.m2.name << "--" << traverse->mon.m3.name << "--" << traverse->mon.m4.name << endl;
+
+        //cout << traverse->next << endl;
         traverse = traverse->next;
     }
     cout << endl;
@@ -155,4 +157,116 @@ bool Team::checkStatus()
 		return 0;
 	}
 
+}
+
+
+Pokemon* Team::getBattlingPokemon()
+{// Return a pointer to the pokemon currently battling
+
+    // Base case - team is empty
+    if (head == nullptr){
+        cout << "err: team is empty, no one can battle" << endl;
+        return nullptr;
+    }
+
+    // Return the first pokemon in the team whose health is > 0
+    teamMember* search = head;
+    while (search->mon.hp <= 0 && search != nullptr)
+    {
+        search = search->next;
+    }
+
+    // Make sure that the entire party hasn't fainted
+    if (search->mon.hp > 0){
+        return &(search->mon);
+    } else {
+        cout << "All party members have fainted" << endl;
+        return nullptr;
+    }
+}
+
+bool accuracyCheck(int acc)
+{ // Return true or false with a probability of acc
+    //float prob = float(acc)/100;
+
+    // Initialize a bernoulli distribution and return a random value from it
+    // default_random_engine rand_engine;
+    // bernoulli_distribution d(prob);
+    // return d(rand_engine);
+    return true;
+}
+
+void Team::applyDamage(Pokemon *attacker, Move *move, TypeGraph *tg)
+{// Apply damage to the current battling pokemon
+
+    // Get the current battling pokemon
+    Pokemon* defender = getBattlingPokemon();
+    float mult;
+
+    // check that move has sufficient pp
+    if (move->pp <= 0)
+    {
+        cout << "Insufficient pp to use " << move->name << endl;
+        return;
+    }
+
+    cout << attacker->name << " used " << move->name << endl;
+
+    // Calculate the damage multiplier
+    mult = tg->typeMatchup(attacker->type, move->type, defender->type);
+
+    // Check if the move hits
+    if (accuracyCheck(move->acc))
+    {
+        float attack, damage;
+        if (move->cat == "ph")
+        { // Use physical attack and defense modifiers
+            attack = (move->pow + attacker->atk) * mult;
+            damage = attack - defender->def;
+
+            // Check that damage done is not positive
+            if (damage < 0)
+            {
+                damage = 0;
+            }
+
+            // Decrement the defending pokemon's health
+            defender->hp -= damage;
+
+            // Set defender's hp to zero if it is negative
+            if (defender->hp < 0)
+            {
+                defender->hp = 0;
+            }
+        }
+        else if (move->cat == "sp")
+        { // Use special attack and defense moodifiers
+            attack = (move->pow + attacker->spc) * mult;
+            damage = attack - defender->spc;
+
+            // Check that damage done is not positive
+            if (damage < 0)
+            {
+                damage = 0;
+            }
+
+            // Decrement the defending pokemon's health
+            defender->hp -= damage;
+
+            // Set defender's hp to zero if it is negative
+            if (defender->hp < 0)
+            {
+                defender->hp = 0;
+            }
+        }
+        cout << attacker->name << " inflicted " << damage << " damage on " << defender->name << endl;
+    }
+    else
+    {
+        cout << move->name << " missed!" << endl;
+        return;
+    }
+
+    // Decrement move's pp
+    move->pp--;
 }
