@@ -185,6 +185,11 @@ int main(int argc, char const *argv[])
             cout << "Speicial?" << endl;
             getline(cin, spc);
 
+            move1 = *(ml.getRandomMove());
+            move2 = *(ml.getRandomMove());
+            move3 = *(ml.getRandomMove());
+            move4 = *(ml.getRandomMove());
+
             dex.addMon(dexNum, name, type, stoi(hp), stoi(atk), stoi(def), stoi(spd), stoi(spc), &ml, move1, move2, move3, move4);
             cout << "Nice Pokemon! It has been added to the Pokedex (Binary Tree)." << endl;
             break;
