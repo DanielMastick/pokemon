@@ -70,7 +70,7 @@ teamMember* Team::addMember(string name, Pokemon* pokeListRoot)
 }
 
 Pokemon* Team::getMon(Pokemon* root, string name)
-{
+{//	Get pointer to Pokemon struct
     if (root == nullptr)
     {
         return root;

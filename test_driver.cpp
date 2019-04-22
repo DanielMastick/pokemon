@@ -74,17 +74,13 @@ Move* selectMove(Team *p1)
 
 
 void battle(Team *p1, Team *p2, TypeGraph* tg)
-{
+{//State battle system with selected teams
     Move* move;
     Pokemon *p1_current, *p2_current;
     cout << "lets battle my dudes" << endl;
 	bool end = 1;
 
 	while (end == 1) {
-        // cout << "Team 1:" << endl;
-        // p1->printTeam();
-        // cout << "Team 2:" << endl;
-        // p2->printTeam();
 
         end = p1->checkStatus();
 		if (end == 0) {
@@ -101,11 +97,6 @@ void battle(Team *p1, Team *p2, TypeGraph* tg)
         //calculate damage
         p2->applyDamage(p1_current, move, tg);
 
-        // cout << "Team 1:" << endl;
-        // p1->printTeam();
-        // cout << "Team 2:" << endl;
-        // p2->printTeam();
-
         end = p2->checkStatus();
 		if (end == 0) {
 			cout << "All Pokemon on team 2 have fainted" << endl;
@@ -118,7 +109,7 @@ void battle(Team *p1, Team *p2, TypeGraph* tg)
         // Get pointer to the attacking pokemon
         p2_current = p2->getBattlingPokemon();
 
-        //calcualte damage
+        //calculate damage
         p1->applyDamage(p2_current, move, tg);
 
     }
@@ -166,7 +157,7 @@ int main(int argc, char const *argv[])
         switch (option)
         {
         case 1:
-        {
+        {	//Adding a new Pokemon
             int dexNum;
             string name, type, hp, atk, def, spd, spc, tot, avg;
             Move move1, move2, move3, move4;
@@ -242,7 +233,7 @@ int main(int argc, char const *argv[])
             break;
         }
         case 5:
-        {
+        {	//Quitting
             cout << "Hope you had fun :P" << endl;
             finish = 1;
             break;
