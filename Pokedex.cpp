@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 using namespace std;
 
@@ -86,6 +87,9 @@ void Pokedex::loadPokemonFile(MoveList *mt, string filename)
     {
         string skipline;
         getline(myfile, skipline);
+
+        // Give rand a unique sseed
+        srand(time(0));
         while (getline(myfile, line))
         {
 
