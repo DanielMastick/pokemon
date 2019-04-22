@@ -15,11 +15,21 @@ Pokedex::Pokedex()
 
 
 Pokedex::~Pokedex()
-{// Default destructor
-
+{// Default destructor - call eraseDex helper
+    eraseDex(root);
 }
 
-void Pokedex::addMon(int dexNum, string name, string type, int hp, int atk, int def, int spd, int spc, MoveList *mt, Move move1, Move move2, Move move3, Move move4)
+void Pokedex::eraseDex(Pokemon* root)
+{// Helper function to recursively delete the BST - called by destructor
+    if (root != nullptr)
+    {
+        eraseDex(root->leftChild);
+        eraseDex(root->rightChild);
+        delete root;
+    }
+}
+
+void Pokedex::addMon(int dexNum, string name, string type, int hp, int atk, int def, int spd, int spc, Move move1, Move move2, Move move3, Move move4)
 {// Add pokemon to the pokedex tree
     Pokemon *node = new Pokemon;
     node->dexNum = dexNum;
@@ -37,6 +47,7 @@ void Pokedex::addMon(int dexNum, string name, string type, int hp, int atk, int 
     node->m3 = move3;
     node->m4 = move4;
 
+    // Base case - add pokemon as root node
     if (root == nullptr)
     {
         root = node;
@@ -47,9 +58,8 @@ void Pokedex::addMon(int dexNum, string name, string type, int hp, int atk, int 
         Pokemon *traverse = root;
 
         while (check == 0)
-        {
+        {// Traverse through BST to find apppropriate place to insert the pokemon
 
-            //if (traverse->leftChild != NULL && node->name.at(0)<traverse->name) {
             if (traverse->leftChild != NULL && node->name < traverse->name)
             {
                 //title is earlier in alphabet and there is an entry
@@ -83,21 +93,28 @@ void Pokedex::loadPokemonFile(MoveList *mt, string filename)
     string line;
     ifstream myfile(filename);
 
+    // Check if file opened correctly
     if (myfile.is_open())
     {
+        // Skip one line
         string skipline;
         getline(myfile, skipline);
 
-        // Give rand a unique sseed
+        // Give rand a unique seed
         srand(time(0));
+
+        // Loop through every line in the file
         while (getline(myfile, line))
         {
 
             stringstream ss;
             ss << line;
+
+            // Initialize parameters
             string dexNum, name, type, hp, atk, def, spd, spc, tot, avg;
             Move *move1, *move2, *move3, *move4;
-            //go through comma seperated file
+
+            // Populate parameters from csv
             getline(ss, dexNum, ',');
             getline(ss, name, ',');
             getline(ss, type, ',');
@@ -108,26 +125,39 @@ void Pokedex::loadPokemonFile(MoveList *mt, string filename)
             getline(ss, spc, ',');
             getline(ss, tot, ',');
             getline(ss, avg, ',');
+
+            // Fetch 4 random moves from the moves LL
             move1 = (*mt).getRandomMove();
             move2 = (*mt).getRandomMove();
             move3 = (*mt).getRandomMove();
             move4 = (*mt).getRandomMove();
 
-            addMon(stoi(dexNum), name, type, stoi(hp), stoi(atk), stoi(def), stoi(spd), stoi(spc), mt, *move1, *move2, *move3, *move4);
+            // Call the addMon function
+            addMon(stoi(dexNum), name, type, stoi(hp), stoi(atk), stoi(def), stoi(spd), stoi(spc), *move1, *move2, *move3, *move4);
 
+            // clear the stringstream
             ss.clear();
         }
+        // Close the file
         myfile.close();
     }
 }
 
 void Pokedex::printPokemonListHelper(Pokemon* root)
 {// Print contents of the pokedex
+    
+    // Base case
     if (root == nullptr)
         return;
+
+    // Recur left
     printPokemonListHelper(root->leftChild);
+
+    // Print info
     cout << root->dexNum << "-" << root->name << " " << root->type << " hp:" << root->hp;
     cout << " atk:" << root->atk << " def:" << root->def << " spd:" << root->spd << " spc:" << root->spc << endl;
+
+    // Recur right
     printPokemonListHelper(root->rightChild);
 }
 

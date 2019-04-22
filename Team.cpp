@@ -64,21 +64,28 @@ teamMember* Team::addMember(string name, Pokemon* pokeListRoot)
         {// Insert new pokemon as head of team
             head = newMember;
         }
+        return newMember;
     } else {
         cout << name << " is not a Pokemon, check your spelling" << endl;
+        return nullptr;
     }
 }
 
 Pokemon* Team::getMon(Pokemon* root, string name)
-{//	Get pointer to Pokemon struct
+{//	Search for pokemon with name in the pokedex BST
+
+    // Base case
     if (root == nullptr)
     {
         return root;
     }
+
+    // Traversal variable
     Pokemon *traverse = root;
     int check = 0;
     while (check == 0)
     {
+        // Check which direction to traverse the tree
         if (traverse->leftChild != nullptr && name < traverse->name)
         {
             traverse = traverse->leftChild;
@@ -89,6 +96,7 @@ Pokemon* Team::getMon(Pokemon* root, string name)
         }
         else if (traverse->name == name)
         {
+            // return the search result
             check = 0;
             return traverse;
         }
@@ -101,17 +109,26 @@ Pokemon* Team::getMon(Pokemon* root, string name)
 
 void Team::makeTeam(int teamSize, Pokemon *pokeListRoot)
 {// Prompt user for inputs and build a team
-    int monCount = 0;
+
+    // Initialize variables
     string name;
-    teamMember* tmp = head;
-    while (monCount < teamSize)
+    teamMember* result = nullptr;
+
+    // Loop until monCount equals teamSize
+    for (int monCount=0; monCount < teamSize; monCount=monCount)
     {
+        // Prompt user for pokemon name
         cout << "Name of #" << monCount << " Mon: " << endl;
         getline(cin, name);
 
         // Call the addMember function
-        addMember(name, pokeListRoot);
-        monCount++;
+        result = addMember(name, pokeListRoot);
+
+        // Only increment monCount if given pokemon is in the pokedex BST
+        if (result != nullptr)
+        {
+            monCount++;
+        }
     }
 }
 
@@ -132,16 +149,21 @@ void Team::printTeam()
 
 bool Team::checkStatus()
 {// Check if current or all Pokemon in team are not fainted, return 1 if all is good
+
+    // Base case - head pokemon is still healthy enough to battle
 	if (head->mon.hp > 0) {
 		cout << "Pokemon " << head->mon.name << " has " << head->mon.hp  << " hit points remaining."<< endl;
 		return 1;
 	}
+
+    // Otherwise find the next healthy pokemon and make it the head of the list
 	else if (head->mon.hp <= 0) {
 		cout << head->mon.name << " fainted!" << endl;
 		teamMember *traverseParent = head;
 		teamMember *traverse = head;
 		while (traverse->next != nullptr) {
-			if (traverse->next->mon.hp > 0) {//swap with head
+			if (traverse->next->mon.hp > 0) 
+            {// swap with head
 				traverse = traverse->next;
 				traverseParent->next = traverse->next;
 				teamMember *temp = traverse;

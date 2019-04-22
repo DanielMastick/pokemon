@@ -16,6 +16,8 @@ MoveList::~MoveList()
 {// Default destructor
     Move* toDelete = head;
     Move* tmp;
+
+    // Loop to end of list, deleting nodes as we go
     while (toDelete != nullptr)
     {
         tmp = toDelete->next;
@@ -26,7 +28,7 @@ MoveList::~MoveList()
 }
 
 bool MoveList::isEmpty()
-{
+{// return true if list is empty, false if not
     if (head == nullptr){
         return true;
     } else {
@@ -63,16 +65,18 @@ void MoveList::addMove(string nameIn, string typeIn, string catIn, int powIn, in
 }
 
 void MoveList::loadMoveFile(string filename)
-{// Load contents of movefile into MoveList
+{// Read contents of movefile into MoveList
     string line;
     ifstream myfile(filename);
 
+    // Check that file opened properly
     if (myfile.is_open())
     {
+        // Skip a line
         string skipline;
         getline(myfile, skipline);
         while (getline(myfile, line))
-        {
+        {// For each line in the file fetch move parameters
             stringstream ss;
             ss << line;
             string name, type, cat, pow, acc, pp;
@@ -83,10 +87,15 @@ void MoveList::loadMoveFile(string filename)
             getline(ss, pow, ',');
             getline(ss, acc, ',');
             getline(ss, pp, ',');
+
+            // Add move to the list
             addMove(name, type, cat, stoi(pow), stoi(acc), stoi(pp));
 
+            // Clear the stringstream
             ss.clear();
         }
+
+        // Close the file
         myfile.close();
     }
     return;
@@ -102,13 +111,13 @@ void MoveList::printMoveList()
         return;
     }
 
+    // Loop to end of list printing move info as we go
     Move* printer = head;
     while (printer != nullptr)
     {
-        cout << printer->name << "   ";
+        cout << printer->name << " [" << printer->type << "]  power:" << printer->pow << "   accuracy:" << printer->acc << "   pp:" << printer->pp << endl;;
         printer = printer->next;
     }
-    cout << endl;
 }
 
 Move *MoveList::getRandomMove()
@@ -156,10 +165,12 @@ Move* MoveList::getMove(string moveName)
     {
         search = search->next;
     }
+
+    // return the search result
     return search;
 }
 
 Move *MoveList::getHead()
-{
+{// Return head of the LL
     return head;
 }

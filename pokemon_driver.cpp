@@ -11,13 +11,27 @@ using namespace std;
 
 
 void menu()
-{
+{// Print initial menu
     cout << "============Main Menu============" << endl;
     cout << "1. Add Pokemon" << endl;
     cout << "2. Print Pokemon List" << endl;
     cout << "3. Print Move List" << endl;
     cout << "4. Battle" << endl;
     cout << "5. Quit" << endl;
+}
+
+void battleMenu(Pokemon* battling)
+{// Print out battle menue
+    cout << "==========================================================================" << endl;
+    cout << "Select one of " << battling->name << "'s moves:" << endl;
+    cout << "1. " << battling->m1.name << " [" << battling->m1.type << "]  power:" << battling->m1.pow << "   accuracy:" << battling->m1.acc << "   pp:" << battling->m1.pp << "   damage type:" << battling->m1.cat << endl;
+
+    cout << "2. " << battling->m2.name << " [" << battling->m2.type << "]  power:" << battling->m2.pow << "   accuracy:" << battling->m2.acc << "   pp:" << battling->m2.pp << "   damage type:" << battling->m2.cat << endl;
+
+    cout << "3. " << battling->m3.name << " [" << battling->m3.type << "]  power:" << battling->m3.pow << "   accuracy:" << battling->m3.acc << "   pp:" << battling->m3.pp << "   damage type:" << battling->m3.cat << endl;
+
+    cout << "4. " << battling->m4.name << " [" << battling->m4.type << "]  power:" << battling->m4.pow << "   accuracy:" << battling->m4.acc << "   pp:" << battling->m4.pp << "   damage type:" << battling->m4.cat << endl;
+    cout << "==========================================================================" << endl;
 }
 
 Move* selectMove(Team *p1)
@@ -31,38 +45,29 @@ Move* selectMove(Team *p1)
     Pokemon* battling = p1->getBattlingPokemon();
 
     // Prompt user to select a move from the battling pokemon
-    cout << "==========================================================================" << endl;
-    cout << "Select one of " << battling->name << "'s moves:" << endl;
-    cout << "1. " << battling->m1.name << " [" << battling->m1.type << "]  power:" << battling->m1.pow << "   accuracy:" << battling->m1.acc << "   pp:" << battling->m1.pp << "   damage type:" << battling->m1.cat << endl;
-
-    cout << "2. " << battling->m2.name << " [" << battling->m2.type << "]  power:" << battling->m2.pow << "   accuracy:" << battling->m2.acc << "   pp:" << battling->m2.pp << "   damage type:" << battling->m2.cat << endl;
-
-    cout << "3. " << battling->m3.name << " [" << battling->m3.type << "]  power:" << battling->m3.pow << "   accuracy:" << battling->m3.acc << "   pp:" << battling->m3.pp << "   damage type:" << battling->m3.cat << endl;
-
-    cout << "4. " << battling->m4.name << " [" << battling->m4.type << "]  power:" << battling->m4.pow << "   accuracy:" << battling->m4.acc << "   pp:" << battling->m4.pp << "   damage type:" << battling->m4.cat << endl;
-    cout << "==========================================================================" << endl;
+    battleMenu(battling);
 
     while (inInt < 1 || inInt > 4)
-    {
+    {// Loop until valid input is given
         getline(cin, input);
         inInt = stoi(input);
 
         switch(inInt)
         {
         case 1:
-        {
+        {// Return pointer to move 1
             return &(battling->m1);
         }
         case 2:
-        {
+        {// Return pointer to move 2
             return &(battling->m2);
         }
         case 3:
-        {
+        {// Return pointer to move 3
             return &(battling->m3);
         }
         case 4:
-        {
+        {// Return pointer to move 4
             return &(battling->m4);
         }
         default:
@@ -75,13 +80,18 @@ Move* selectMove(Team *p1)
 
 void battle(Team *p1, Team *p2, TypeGraph* tg)
 {//State battle system with selected teams
+
+    // Initialize pointers used to specify the current move and battling pokemon
     Move* move;
     Pokemon *p1_current, *p2_current;
-    cout << "lets battle my dudes" << endl;
-	bool end = 1;
 
+    cout << "lets battle my dudes" << endl;
+
+    // Loop until end condition is met
+	bool end = 1;
 	while (end == 1) {
 
+        // Check the status of team 1, flag end condition if no pokemon are able to battle
         end = p1->checkStatus();
 		if (end == 0) {
 			cout << "All Pokemon on team 1 have fainted" << endl;
@@ -97,6 +107,7 @@ void battle(Team *p1, Team *p2, TypeGraph* tg)
         //calculate damage
         p2->applyDamage(p1_current, move, tg);
 
+        // Check the status of team 2, flag end condition if no pokemon are able to battle
         end = p2->checkStatus();
 		if (end == 0) {
 			cout << "All Pokemon on team 2 have fainted" << endl;
@@ -118,6 +129,7 @@ void battle(Team *p1, Team *p2, TypeGraph* tg)
 
 int main(int argc, char const *argv[])
 {
+    // Check command line args
     if (argc > 1)
     {
         cout << "This program doesn't require any initial command line inupts" << endl;
@@ -142,9 +154,14 @@ int main(int argc, char const *argv[])
          << "\n"
          << endl;
 
-    // Read type matchups into graph
+    // Initialize type graph object - this reads type matchups into graph by default
+    //                                Which is acceptable because the type graph does not change
     TypeGraph types;
 
+    // Initialize variables
+    int option, newMonCount;
+
+    // Loop until end condition is met
     int finish = 0;
     while (finish == 0)
     {
@@ -152,28 +169,38 @@ int main(int argc, char const *argv[])
         menu();
         string input;
         getline(cin, input);
-        int option = stoi(input);
-        int newMonCount = 0;
+        option = stoi(input);
+        newMonCount = 0;
         switch (option)
         {
         case 1:
         {	//Adding a new Pokemon
+
+            // Initialize pokemon stat variables
             int dexNum;
             string name, type, hp, atk, def, spd, spc, tot, avg;
             Move move1, move2, move3, move4;
             cout << "Adding Pokemon!" << endl;
+
+            // Increment counter of new pokemon
             newMonCount++;
+            // Assign a pokedex number to the new pokemon
             dexNum = 151 + newMonCount;
+
+            // Get user input for pokemon parameters
             cout << "What is the name of this Pokemon?" << endl;
             getline(cin, name);
             cout << "What is this Pokemon's type?" << endl;
             getline(cin, type);
+
+            // Make sure that the given type is valid
             int check = types.typeIndex(type);
             if (check == -1)
             {
                 cout << "Not a valid type, try again." << endl;
                 getline(cin, type);
             }
+
             cout << "The Pokemon's hp?" << endl;
             getline(cin, hp);
             cout << "Attack?" << endl;
@@ -185,23 +212,25 @@ int main(int argc, char const *argv[])
             cout << "Speicial?" << endl;
             getline(cin, spc);
 
+            // Get a random moveset
             move1 = *(ml.getRandomMove());
             move2 = *(ml.getRandomMove());
             move3 = *(ml.getRandomMove());
             move4 = *(ml.getRandomMove());
 
-            dex.addMon(dexNum, name, type, stoi(hp), stoi(atk), stoi(def), stoi(spd), stoi(spc), &ml, move1, move2, move3, move4);
+            // Add the new pokemon to the pokedex BST
+            dex.addMon(dexNum, name, type, stoi(hp), stoi(atk), stoi(def), stoi(spd), stoi(spc), move1, move2, move3, move4);
             cout << "Nice Pokemon! It has been added to the Pokedex (Binary Tree)." << endl;
             break;
         }
         case 2:
-        {   // Print all loaded pokemon
+        {   // Print all loaded pokemon from the BST
             cout << "Printing Pokemon list" << endl;
             dex.printPokemonList();
             break;
         }
         case 3:
-        {   // Print all loaded moves
+        {   // Print all loaded moves from the LL
             cout << "Printing moves list" << endl;
             ml.printMoveList();
             break;
@@ -209,6 +238,8 @@ int main(int argc, char const *argv[])
         case 4:
         {   // Battle!
             cout << "Lets Battle!" << endl;
+
+            // Prompt the user to begin team building process and set the team size
             cout << "Chose the size of the teams" << endl;
             string in;
             getline(cin, in);
@@ -218,9 +249,9 @@ int main(int argc, char const *argv[])
 
             // Initialize first team
             Team p1;
-            // Populate p1
+            // Populate the first team
             p1.makeTeam(teamSize, dex.getRoot());
-            // Display contents
+            // Display contents of team 1
             cout << "Here is team 1: " << endl;
             p1.printTeam();
 
