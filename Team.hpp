@@ -2,6 +2,7 @@
 #define TEAM_HPP
 
 #include <iostream>
+#include <random>
 #include "MoveList.hpp"
 #include "Pokedex.hpp"
 #include "TypeGraph.hpp"

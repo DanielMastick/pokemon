@@ -2,6 +2,7 @@
 #include "MoveList.hpp"
 #include "TypeGraph.hpp"
 #include <iostream>
+#include <random>
 
 using namespace std;
 
@@ -187,13 +188,12 @@ Pokemon* Team::getBattlingPokemon()
 
 bool accuracyCheck(int acc)
 { // Return true or false with a probability of acc
-    //float prob = float(acc)/100;
+    float prob = float(acc)/100;
 
-    // Initialize a bernoulli distribution and return a random value from it
-    // default_random_engine rand_engine;
-    // bernoulli_distribution d(prob);
-    // return d(rand_engine);
-    return true;
+    //Initialize a bernoulli distribution and return a random value from it
+    default_random_engine rand_engine;
+    bernoulli_distribution d(prob);
+    return d(rand_engine);
 }
 
 void Team::applyDamage(Pokemon *attacker, Move *move, TypeGraph *tg)
@@ -210,7 +210,7 @@ void Team::applyDamage(Pokemon *attacker, Move *move, TypeGraph *tg)
         return;
     }
 
-    cout << attacker->name << " used " << move->name << endl;
+    cout << attacker->name << " used " << move->name << "!" << endl;
 
     // Calculate the damage multiplier
     mult = tg->typeMatchup(attacker->type, move->type, defender->type);

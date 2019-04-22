@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <random>
 #include "MoveList.hpp"
 #include "Team.hpp"
 #include "Pokedex.hpp"
